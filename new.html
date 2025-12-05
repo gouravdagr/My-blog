@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Professional Blog</title>
+    <style>
+        /* --- CSS VARIABLES (Change colors here) --- */
+        :root {
+            --primary-color: #2563eb;       /* Blue accent */
+            --bg-color: #f8fafc;            /* Light gray background */
+            --card-bg: #ffffff;             /* White card background */
+            --text-main: #1e293b;           /* Dark text */
+            --text-muted: #64748b;          /* Grey text */
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* --- GLOBAL STYLES --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: var(--font-main); background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- HEADER --- */
+        header { background: var(--card-bg); padding: 1rem 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 100; }
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary-color); cursor: pointer; }
+        nav ul { display: flex; gap: 20px; }
+        nav a:hover { color: var(--primary-color); }
+
+        /* --- HERO SECTION --- */
+        .hero { text-align: center; padding: 4rem 1rem; background: var(--card-bg); margin-bottom: 2rem; }
+        .hero h1 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .hero p { color: var(--text-muted); font-size: 1.1rem; }
+
+        /* --- LAYOUT GRID --- */
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; }
+        
+        /* --- BLOG FEED --- */
+        .blog-grid { display: grid; gap: 2rem; }
+        .blog-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); transition: transform 0.2s; cursor: pointer; }
+        .blog-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .card-image { height: 200px; background-color: #e2e8f0; background-size: cover; background-position: center; }
+        .card-content { padding: 1.5rem; }
+        .card-meta { font-size: 0.85rem; color: var(--primary-color); font-weight: 600; text-transform: uppercase; margin-bottom: 0.5rem; }
+        .card-title { font-size: 1.5rem; margin-bottom: 0.5rem; font-weight: 700; }
+        .card-excerpt { color: var(--text-muted); margin-bottom: 1rem; }
+        .read-more { color: var(--primary-color); font-weight: 600; display: inline-flex; align-items: center; }
+        .read-more::after { content: '→'; margin-left: 5px; transition: margin 0.2s; }
+        .blog-card:hover .read-more::after { margin-left: 10px; }
+
+        /* --- SIDEBAR --- */
+        .sidebar-widget { background: var(--card-bg); padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); margin-bottom: 2rem; }
+        .widget-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; border-bottom: 2px solid #f1f5f9; padding-bottom: 0.5rem; }
+        .bio-img { width: 80px; height: 80px; border-radius: 50%; background: #ccc; margin-bottom: 1rem; object-fit: cover;}
+
+        /* --- FULL POST VIEW (Hidden by default) --- */
+        #post-view { display: none; background: var(--card-bg); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .back-btn { display: inline-block; margin-bottom: 1rem; color: var(--text-muted); cursor: pointer; }
+        .back-btn:hover { color: var(--primary-color); }
+        .full-post-img { width: 100%; height: 400px; object-fit: cover; border-radius: 8px; margin-bottom: 2rem; }
+        .post-body { font-size: 1.1rem; line-height: 1.8; }
+        .post-body p { margin-bottom: 1.5rem; }
+
+        /* --- FOOTER --- */
+        footer { text-align: center; padding: 2rem; margin-top: 3rem; color: var(--text-muted); border-top: 1px solid #e2e8f0; }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo" onclick="showFeed()">MinimalBlog.</div>
+        <nav>
+            <ul>
+                <li><a href="#" onclick="showFeed()">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero" id="hero-section">
+        <h1>Welcome to My Space</h1>
+        <p>Thoughts, tutorials, and stories about life and tech.</p>
+    </section>
+
+    <div class="container">
+        
+        <main>
+            <div id="blog-feed" class="blog-grid">
+                </div>
+
+            <div id="post-view">
+                <div class="back-btn" onclick="showFeed()">← Back to posts</div>
+                <h1 id="view-title" style="font-size: 2.5rem; margin-bottom: 0.5rem;"></h1>
+                <p id="view-date" style="color: var(--text-muted); margin-bottom: 1.5rem;"></p>
+                <img id="view-image" class="full-post-img" src="" alt="">
+                <div id="view-content" class="post-body"></div>
+            </div>
+        </main>
+
+        <aside>
+            <div class="sidebar-widget">
+                <h3 class="widget-title">About Me</h3>
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=150&q=80" alt="Author" class="bio-img">
+                <p>Hi, I'm the author. I write about technology, design, and productivity. Welcome to my digital garden.</p>
+            </div>
+            
+            <div class="sidebar-widget">
+                <h3 class="widget-title">Categories</h3>
+                <ul>
+                    <li>▸ Technology</li>
+                    <li>▸ Lifestyle</li>
+                    <li>▸ Coding</li>
+                    <li>▸ Travel</li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 MinimalBlog. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // ==========================================
+        //  👇 YOUR DATA ZONE - EDIT THIS PART ONLY 👇
+        // ==========================================
+        
+        const blogPosts = [
+            {
+                id: 1,
+                title: "The Future of Artificial Intelligence",
+                category: "Technology",
+                date: "October 24, 2024",
+                image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=800&q=80",
+                excerpt: "AI is changing the way we work and live. Here is a look at what is coming next in the tech world...",
+                content: `
+                    <p>Artificial Intelligence is no longer a futuristic concept; it is here today. From chatbots to autonomous vehicles, the landscape is shifting rapidly.</p>
+                    <p>One of the biggest changes we are seeing is in the realm of <strong>Generative AI</strong>. Tools that can create images, text, and even code are empowering creators like never before.</p>
+                    <h3>Why this matters</h3>
+                    <p>For businesses, it means efficiency. For artists, it means new tools. But it also raises questions about ethics and job security that we must address.</p>
+                `
+            },
+            {
+                id: 2,
+                title: "10 Tips for Better Productivity",
+                category: "Lifestyle",
+                date: "October 20, 2024",
+                image: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=800&q=80",
+                excerpt: "Struggling to stay focused? Here are my top 10 tips for getting more done in less time.",
+                content: `
+                    <p>Productivity isn't about working harder; it's about working smarter. Here are a few techniques I use daily.</p>
+                    <ul>
+                        <li><strong>The Pomodoro Technique:</strong> Work for 25 minutes, break for 5.</li>
+                        <li><strong>Time Blocking:</strong> Dedicate specific hours to specific tasks.</li>
+                        <li><strong>Digital Detox:</strong> Turn off notifications when doing deep work.</li>
+                    </ul>
+                    <p>Try implementing just one of these today and see the difference it makes.</p>
+                `
+            },
+            {
+                id: 3,
+                title: "Minimalist Desk Setup Guide",
+                category: "Design",
+                date: "October 15, 2024",
+                image: "https://images.unsplash.com/photo-1493934558415-9d19f0b2b4d2?auto=format&fit=crop&w=800&q=80",
+                excerpt: "A clean desk equals a clean mind. Learn how to organize your workspace for maximum zen.",
+                content: `
+                    <p>Your environment dictates your mindset. If your desk is cluttered, your mind will be too.</p>
+                    <p>Start by removing everything from your desk. Only put back the items you use every single day. Everything else should go in a drawer or a shelf.</p>
+                    <p>Cable management is also key. Use velcro ties to bundle cables together and hide them behind your monitor stand.</p>
+                `
+            }
+        ];
+
+        // ==========================================
+        //  👆 END OF DATA ZONE - DO NOT EDIT BELOW 👆
+        // ==========================================
+
+        const feedContainer = document.getElementById('blog-feed');
+        const viewContainer = document.getElementById('post-view');
+        const heroSection = document.getElementById('hero-section');
+
+        // Function to render the list of posts
+        function renderFeed() {
+            feedContainer.innerHTML = '';
+            blogPosts.forEach(post => {
+                const card = document.createElement('article');
+                card.className = 'blog-card';
+                card.onclick = () => openPost(post.id);
+                card.innerHTML = `
+                    <div class="card-image" style="background-image: url('${post.image}')"></div>
+                    <div class="card-content">
+                        <div class="card-meta">${post.category} • ${post.date}</div>
+                        <h2 class="card-title">${post.title}</h2>
+                        <p class="card-excerpt">${post.excerpt}</p>
+                        <span class="read-more">Read Article</span>
+                    </div>
+                `;
+                feedContainer.appendChild(card);
+            });
+        }
+
+        // Function to open a specific post
+        function openPost(id) {
+            const post = blogPosts.find(p => p.id === id);
+            if (!post) return;
+
+            // Populate the view
+            document.getElementById('view-title').innerText = post.title;
+            document.getElementById('view-date').innerText = `${post.category} • ${post.date}`;
+            document.getElementById('view-image').src = post.image;
+            document.getElementById('view-content').innerHTML = post.content;
+
+            // Toggle visibility
+            feedContainer.style.display = 'none';
+            heroSection.style.display = 'none'; // Optional: hide hero on post view
+            viewContainer.style.display = 'block';
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Function to go back to the feed
+        function showFeed() {
+            viewContainer.style.display = 'none';
+            feedContainer.style.display = 'grid';
+            heroSection.style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        // Initialize
+        renderFeed();
+    </script>
+</body>
+</html>

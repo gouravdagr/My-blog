@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  /* Light Mode: Light Gray | Dark Mode: Dark Gray */
+  @apply bg-gray-100 dark:bg-gray-900; 
+}
