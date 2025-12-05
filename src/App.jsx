@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Link,
   useParams,
+  useLocation,
 } from "react-router-dom";
 import {
   ArrowRight,
@@ -19,7 +20,17 @@ import { posts, blogInfo } from "./data";
 
 // --- Components ---
 import { Menu, X, Sun, Moon } from "lucide-react";
-import { useState, useEffect } from "react";
+
+// --- ScrollToTop Helper ---
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+};
 
 // --- Navbar ---
 const Navbar = () => {
@@ -41,39 +52,22 @@ const Navbar = () => {
     <nav className="bg-gray-900 dark:bg-gray-950 border-b border-gray-800 shadow-lg sticky top-0 z-50 transition-colors duration-300">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          {/* LOGO*/}
+          
+          {/* 1. LOGO */}
           <Link
             to="/"
-            className="text-2xl font-bold text-white tracking-tight"
+            className="text-lg sm:text-2xl font-bold text-white tracking-tight"
           >
             My Professional Blog <span className="text-blue-500">.</span>
           </Link>
 
-          {/* Desktop Menu */}
+          {/* 2. DESKTOP MENU*/}
           <div className="hidden md:flex items-center space-x-6">
-            {/* LINKS*/}
-            <Link
-              to="/"
-              className="text-gray-300 hover:text-white transition"
-            >
-              Home
-            </Link>
-            <a
-              href="#"
-              className="text-gray-300 hover:text-white transition"
-            >
-              About
-            </a>
+            <Link to="/" className="text-gray-300 hover:text-white transition">Home</Link>
+            <a href="#" className="text-gray-300 hover:text-white transition">About</a>
+            <a href="#" className="text-white font-medium bg-blue-600 px-5 py-2 rounded-full hover:bg-blue-500 transition shadow-md">Subscribe</a>
             
-            {/* SUBSCRIBE*/}
-            <a
-              href="#"
-              className="text-white font-medium bg-blue-600 px-5 py-2 rounded-full hover:bg-blue-500 transition shadow-md"
-            >
-              Subscribe
-            </a>
-
-            {/* TOGGLE*/}
+            {/* Desktop Dark Mode Toggle */}
             <button
               onClick={() => setDarkMode(!darkMode)}
               className="ml-4 p-2 rounded-full bg-gray-800 text-gray-200 hover:bg-gray-700 transition border border-gray-700"
@@ -81,57 +75,61 @@ const Navbar = () => {
               {darkMode ? <Sun size={20} /> : <Moon size={20} />}
             </button>
           </div>
+          {/* END DESKTOP MENU */}
 
-          {/* Mobile Hamburger*/}
-          <button
-            className="md:hidden text-gray-200 hover:text-white"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            {mobileOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
+          {/* 3. MOBILE ACTIONS*/}
+          <div className="flex items-center space-x-2 md:hidden">
+            
+            {/* Mobile Dark Mode Toggle */}
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="p-2 rounded-full bg-gray-800 text-gray-200 hover:bg-gray-700 transition border border-gray-700"
+            >
+              {darkMode ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+
+            {/* Hamburger Menu Button */}
+            <button
+              className="text-gray-200 hover:text-white"
+              onClick={() => setMobileOpen(!mobileOpen)}
+            >
+              {mobileOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
+          {/* END MOBILE ACTIONS */}
+
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown*/}
+      {/* Mobile Menu Dropdown */}
       {mobileOpen && (
         <div className="md:hidden bg-gray-900 border-t border-gray-800 px-4 py-4 space-y-4">
           <Link
             to="/"
             className="block text-gray-300 hover:text-white transition"
+            onClick={() => setMobileOpen(false)}
           >
             Home
           </Link>
           <a
             href="#"
             className="block text-gray-300 hover:text-white transition"
+            onClick={() => setMobileOpen(false)}
           >
             About
           </a>
-          
           <a
             href="#"
             className="block text-center text-white font-medium bg-blue-600 px-4 py-2 rounded-full hover:bg-blue-500 transition"
+            onClick={() => setMobileOpen(false)}
           >
             Subscribe
           </a>
-          
-          <button
-            onClick={() => setDarkMode(!darkMode)}
-            className="w-full p-2 rounded bg-gray-800 text-gray-200 hover:bg-gray-700 transition flex items-center justify-center border border-gray-700"
-          >
-            {darkMode ? (
-              <Sun size={20} className="mr-2" />
-            ) : (
-              <Moon size={20} className="mr-2" />
-            )}
-            {darkMode ? "Light Mode" : "Dark Mode"}
-          </button>
         </div>
       )}
     </nav>
   );
 };
-
 
 // --- Footer ---
 const Footer = () => (
@@ -159,27 +157,33 @@ const Footer = () => (
   </footer>
 );
 
-
 // --- BlogCard ---
 const BlogCard = ({ post }) => (
-  <div className="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-gray-100 dark:border-gray-700 flex flex-col h-full">
+  <Link 
+    to={`/post/${post.id}`} 
+    className="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-shadow duration-300 border border-gray-100 dark:border-gray-700 flex flex-col h-full"
+  >
     <div className="h-48 overflow-hidden">
       <img
         src={post.image}
         alt={post.title}
-        className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
+        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
       />
     </div>
+    
     <div className="p-6 flex-1 flex flex-col">
       <div className="flex items-center text-xs font-semibold text-blue-600 mb-3 uppercase tracking-wider">
         <Tag size={12} className="mr-1" /> {post.category}
       </div>
-      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3 leading-tight hover:text-blue-600 transition">
-        <Link to={`/post/${post.id}`}>{post.title}</Link>
+      
+      <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-3 leading-tight group-hover:text-blue-600 transition">
+        {post.title}
       </h2>
+      
       <p className="text-gray-500 dark:text-gray-400 text-sm mb-4 flex-1 line-clamp-3">
         {post.summary}
       </p>
+      
       <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50 dark:border-gray-700">
         <div className="flex items-center text-xs text-gray-400 dark:text-gray-500">
           <User size={12} className="mr-1" /> {post.author}
@@ -188,9 +192,8 @@ const BlogCard = ({ post }) => (
         </div>
       </div>
     </div>
-  </div>
+  </Link>
 );
-
 
 // --- HomePage ---
 const HomePage = () => (
@@ -211,7 +214,6 @@ const HomePage = () => (
     </div>
   </div>
 );
-
 
 // --- BlogPost ---
 const BlogPost = () => {
@@ -238,7 +240,9 @@ const BlogPost = () => {
         </h1>
         <div className="flex items-center space-x-4 border-b border-gray-100 dark:border-gray-700 pb-8">
           <img
-            src={`https://ui-avatars.com/api/?name=${encodeURIComponent(post.author)}&background=random`}
+            src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
+              post.author
+            )}&background=random`}
             alt="avatar"
             className="w-10 h-10 rounded-full"
           />
@@ -246,7 +250,9 @@ const BlogPost = () => {
             <p className="text-sm font-bold text-gray-900 dark:text-white">
               {post.author}
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">{post.date}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              {post.date}
+            </p>
           </div>
         </div>
       </div>
@@ -265,11 +271,11 @@ const BlogPost = () => {
   );
 };
 
-
 // --- Main App ---
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <div className="min-h-screen flex flex-col font-sans bg-gray-50 dark:bg-gray-900">
         <Navbar />
         <div className="flex-grow">
@@ -285,4 +291,3 @@ function App() {
 }
 
 export default App;
-

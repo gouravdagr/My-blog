@@ -9,19 +9,20 @@ A modern, minimalist, and fully responsive blog template built with **React**, *
 ## ✨ Features
 
 - **⚡ Blazing Fast:** Built with Vite for instant server start and hot module replacement.
-- **mjb Responsive Design:** Looks great on mobile, tablet, and desktop.
-- **wx Dark Mode:** Fully functional dark/light theme toggle with local storage persistence.
+- **📱 Responsive Design:** Looks great on mobile, tablet, and desktop.
+- **🌗 Dark Mode:** Fully functional dark/light theme toggle with local storage persistence.
 - **📄 Dynamic Routing:** Individual blog post pages using React Router.
 - **📝 Headless Content:** easy-to-manage `data.js` file for adding blogs without touching components.
 - **🎨 Modern UI:** Styled with Tailwind CSS and Lucide React icons.
 
 ## 🛠️ Tech Stack
 
-- [React](https://react.dev/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Vite](https://vitejs.dev/)
-- [React Router DOM](https://reactrouter.com/)
-- [Lucide React](https://lucide.dev/) (Icons)
+- ⚛️ [React](https://react.dev/)
+- 🎨 [Tailwind CSS](https://tailwindcss.com/)
+- ⚡ [Vite](https://vitejs.dev/)
+- 🧭 [React Router DOM](https://reactrouter.com/)
+- 💠 [Lucide React](https://lucide.dev/) (Icons)
+
 
 ## 💻 Installation & Setup
 
