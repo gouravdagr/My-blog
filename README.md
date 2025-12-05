@@ -1,16 +1,31 @@
-# React + Vite
+# My Professional Blog ✍️
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, minimalist, and fully responsive blog template built with **React**, **Vite**, and **Tailwind CSS**. Designed for performance and ease of use, separating content from code.
 
-Currently, two official plugins are available:
+![Project Preview](...Coming Soon)
+## 🚀 Live Demo
+[(https://my-blog-aq3iyc703-gouravs-projects-a8646af7.vercel.app)]
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## React Compiler
+- **⚡ Blazing Fast:** Built with Vite for instant server start and hot module replacement.
+- **mjb Responsive Design:** Looks great on mobile, tablet, and desktop.
+- **wx Dark Mode:** Fully functional dark/light theme toggle with local storage persistence.
+- **📄 Dynamic Routing:** Individual blog post pages using React Router.
+- **📝 Headless Content:** easy-to-manage `data.js` file for adding blogs without touching components.
+- **🎨 Modern UI:** Styled with Tailwind CSS and Lucide React icons.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tech Stack
 
-## Expanding the ESLint configuration
+- [React](https://react.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Vite](https://vitejs.dev/)
+- [React Router DOM](https://reactrouter.com/)
+- [Lucide React](https://lucide.dev/) (Icons)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 💻 Installation & Setup
+
+1. **Clone the repository**
+   ```bash
+   git clone [https://github.com/gouravdagr/My-blog.git](https://github.com/gouravdagr/My-blog.git)
+   cd My-blog
