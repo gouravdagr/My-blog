@@ -17,6 +17,7 @@ import {
   Linkedin,
 } from "lucide-react";
 import { posts, blogInfo } from "./data";
+import { Analytics } from "@vercel/analytics/react"
 
 // --- Components ---
 import { Menu, X, Sun, Moon } from "lucide-react";
